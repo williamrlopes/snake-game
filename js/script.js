@@ -31,9 +31,32 @@ function criarCobrinha() {
     }
 }
 
+// cuidando para que a cobrinha não desapareça da tela.
+
+// pega o keydown (evento de clique do teclado)
+document.addEventListener('keydown', update);
+
+// se o usuário digitar 37 e a direção for direrente de direita, então direção é igual a esquerda
+// só muda se a direção não for ao contrário da inicial
+function update(event) {
+    if (event.keyCode == 37 && direction != 'right') direction = 'left';
+    if (event.keyCode == 38 && direction != 'down') direction = 'up';
+    if (event.keyCode == 39 && direction != 'left') direction = 'right';
+    if (event.keyCode == 40 && direction != 'up') direction = 'down';
+}
+
 // Atualizando o jogo de tempos em tempos para que ela consiga se mecher neste intervalo
 // Quando o jogor acabar a função deve parar
 function iniciarJogo() {
+    // fazendo com que a cobrinha passe de um lado para o outro da tela
+
+    // se a cabeça (snake[o].x) na posição x for igual a 15 então ela recebe valor zero e aparece do lado oposto
+    if (snake[0].x > 15 * box && direction == 'right') snake[0].x = 0;
+    // o mesmo nas linhas a seguir para as outras direções
+    if (snake[0].x < 0 && direction == 'left') snake[0].x = 16 * box;
+    if (snake[0].y > 15 * box && direction == 'down') snake[0].y = 0;
+    if (snake[0].y < 0 && direction == 'up') snake[0].y = 16 * box;
+
     // chama a função para aparecer no html
     criarBG();
 
@@ -45,26 +68,22 @@ function iniciarJogo() {
     let snakeY = snake[0].y;
 
     // condicional para cada lado que a cobrinha andar
-    if (direcion == 'right') snakeX += box;
+    if (direction == 'right') snakeX += box;
     if (direction == 'left') snakeX -= box;
-    if (direcion == 'up') snakeY -= box;
+    if (direction == 'up') snakeY -= box;
     if (direction == 'down') snakeY += box;
 
     // retirando o último elemento do array
     snake.pop();
 
     // acrecentando um box no elemento à frente do início da cobrinha
-    let newhead = {
-        x = snakeX,
-        y = snakeY
-    }
+    let newHead = {
+        x: snakeX,
+        y: snakeY,
+    };
 
-    snake.unshift(newhead);
-
+    snake.unshift(newHead);
 }
-
-
-
 
 // Passando o intervalo para que a cada 100 milissegundos para a função iniciarJogo
 // Assim o jogo continua sem travar
