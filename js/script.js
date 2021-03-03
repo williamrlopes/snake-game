@@ -88,8 +88,14 @@ function iniciarJogo() {
     if (direction == 'up') snakeY -= box;
     if (direction == 'down') snakeY += box;
 
-    // retirando o último elemento do array
-    snake.pop();
+    // condicional para quando a comida passar por cima a cobra aumentar de tamanho e a comida mudar aleatoriamente de lugar
+    if (snakeX != food.x || snakeY != food.y) {
+        // retirando o último elemento do array
+        snake.pop();
+    } else {
+        food.x = Math.floor(Math.random() * 15 + 1) * box;
+        food.y = Math.floor(Math.random() * 15 + 1) * box;
+    }
 
     // acrecentando um box no elemento à frente do início da cobrinha
     let newHead = {
