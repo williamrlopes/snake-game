@@ -69,6 +69,15 @@ function iniciarJogo() {
     if (snake[0].y > 15 * box && direction == 'down') snake[0].y = 0;
     if (snake[0].y < 0 && direction == 'up') snake[0].y = 16 * box;
 
+    // condicional para saber se a cabeça bateu no corpo da cobrinha, momento em que o jogo termina
+    for (i = 1; i < snake.length; i++) {
+        // se a posição da cabeça for igual a posição do corpo o jogo para e emite um alerta de fim de jogo
+        if (snake[0].x == snake[i].x && snake[0].y == snake[i].y) {
+            clearInterval(jogo); // fim do jogo
+            alert('Game Over ;(');
+        }
+    }
+
     // chama a função para aparecer no html
     criarBG();
 
